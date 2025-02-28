@@ -75,7 +75,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -135,19 +134,21 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
+
 #contact > * {
 	text-align: center;
-
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
+
 #contact form {
 	text-align: left;
 	margin-top:30px;
@@ -186,3 +187,31 @@ footer nav ul {
 	margin: 2em
 }
 
+/* Style du menu des catégories */
+#menu_categories {
+	list-style-type: none;
+	margin-bottom: 50px;
+	display: flex;
+	justify-content: center;
+	
+  }
+
+  button.category-btn {
+	/* border: none; */
+	display: inline-block;
+	padding: 5px 10px;  
+	cursor: pointer;
+	margin: 10px;
+	font-size: 16px;
+	font-family: 'Syne';
+	color: #1D6154;
+	border-radius: 60px;
+	border: 2px solid #1D6154; 
+	background-color: #FFFFFF;
+  }
+
+  button.category-btn:hover {
+	background-color: #1D6154; /* Couleur de fond au survol */
+	color: white;  /* Texte en blanc au survol */
+	border-color: #1D6154;
+  }
