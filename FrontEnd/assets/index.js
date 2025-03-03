@@ -74,7 +74,6 @@ function filterWorks(selectedCategory) {
  workItems.forEach(workItem => {
     const workCategory = workItem.getAttribute('data-category'); // Utiliser l'attribut data-category
 
-    // Si la catégorie sélectionnée est "Tous", afficher tous les projets
     if (selectedCategory === "Tous" || workCategory === selectedCategory) {
       workItem.style.display = 'block'; // Afficher le projet
     } else {
