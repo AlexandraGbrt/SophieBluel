@@ -1,3 +1,47 @@
+//***************  MODALE ************//
+
+// Fonction pour afficher uniquement les photos des projets dans la modale
+async function showWorksInModal() {
+  const data = await fetchData('http://localhost:5678/api/works'); // Récupérer les données des projets
+  const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
+
+  projectList.innerHTML = ''; // Vider le contenu précédent
+
+  // Construire le HTML pour chaque projet
+  data.forEach(function (work) {
+      const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
+      imageItem.innerHTML = `
+          <img src="${work.imageUrl}" alt="Projet" class="modal-image">
+      `;
+      projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
+  });
+}
+
+// Appeler cette fonction lors de l'ouverture de la modale
+async function openModal() {
+  const modal = document.getElementById('editProjectModal');
+  modal.style.display = 'block';
+
+  // Appeler la fonction pour afficher les projets dans la modale
+  await showWorksInModal();
+}
+
+// Fermer la modale
+function closeModal() {
+  const modal = document.getElementById('editProjectModal');
+  modal.style.display = 'none';
+}
+
+// Associer les événements pour ouvrir et fermer la modale
+document.getElementById('openModalButton').addEventListener('click', openModal);
+document.querySelector('.close-button').addEventListener('click', closeModal);
+
+
+
+
+
+//***************  AFFICHER LES PROJETS  ************//
+
 async function fetchData(url) {
   try {
     const response = await fetch(url); // Effectuer la requête HTTP
@@ -81,7 +125,4 @@ function filterWorks(selectedCategory) {
     }
   });
 }
-
-
-
 

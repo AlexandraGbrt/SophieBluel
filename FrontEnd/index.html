@@ -16,6 +16,17 @@
 	<script src="./assets/login.js" defer></script>
 </head>
 
+<!-- MODALE -->
+<div id="editProjectModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Galerie photo</h2>
+        <div id="project-list"></div> 
+		<input type="submit" value="Ajouter une photo" id="upload-photo-button" class="add-photo">
+	</div>
+</div>
+
+
 <body>
 	<div class="edition-top-bar">
 		<i class="fa-regular fa-pen-to-square"></i> Mode édition
@@ -49,7 +60,7 @@
 		</section>
 		<section id="portfolio">
 			<h2>Mes Projets
-				<div class="edition-link"><i class="fa-regular fa-pen-to-square"></i>modifier</div>
+				<div class="edition-link" id="openModalButton"><i class="fa-regular fa-pen-to-square"></i>modifier</div>
 			</h2>
 			<div class="gallery">
 				<!-- <figure>
@@ -69,7 +80,7 @@
 				<input type="email" name="email" id="email">
 				<label for="message">Message</label>
 				<textarea name="message" id="message" cols="30" rows="10"></textarea>
-				<input type="submit" value="Envoyer" id="btn_send">
+				<input type="submit" value="Envoyer" id="btn-send">
 			</form>
 		</section>
 	</main>
