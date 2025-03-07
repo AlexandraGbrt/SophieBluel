@@ -10,8 +10,11 @@ async function showWorksInModal() {
   // Construire le HTML pour chaque projet
   data.forEach(function (work) {
       const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
+      imageItem.classList.add('image-item'); // ?????
+
       imageItem.innerHTML = `
           <img src="${work.imageUrl}" alt="Projet" class="modal-image">
+          <i class="fa-solid fa-trash-can delete-icone"></i>
       `;
       projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
   });
