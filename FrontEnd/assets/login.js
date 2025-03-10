@@ -48,29 +48,15 @@
 
 
 
-
-
-// TEST UTILISATEUR 
-
-
-// Variable d'état pour savoir si l'utilisateur est connecté
-// let isLoggedIn = false;
-
-// // Fonction pour activer le mode édition
-// function toggleEditMode() {
-//     const editModeBar = document.querySelector('.edition-top-bar'); // Sélectionne la barre par classe
-//     if (isLoggedIn) {
-//         editModeBar.style.display = 'block'; // Affiche la barre
-//     } else {
-//         editModeBar.style.display = 'none'; // Cache la barre
-//     }
-// }
-
+//******************  TEST UTILISATEUR **************/
 
 const createUser = async (event) => {
-    event.preventDefault();  // Empêche le comportement par défaut (rechargement de la page)
+    event.preventDefault();  // Empêche le rechargement de la page
 
     // Récupérer les valeurs des champs du formulaire
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
     const userData = {
         email: "sophie.bluel@test.tld",
         password: "S0phie",
@@ -92,9 +78,7 @@ const createUser = async (event) => {
 
         // Si un userId est retourné, la connexion est réussie
         if (data.userId) {
-            sessionStorage.setItem('token', data.token);  // Stocker le token dans le sessionStorage
-            // isLoggedIn = true; // marquer l'utilisateur connecté
-            // toggleEditMode(); // appelle la fonction
+            localStorage.setItem('token', data.token);  // Stocke le token dans le sessionStorage
             console.log("Utilisateur connecté avec succès :", data);
             window.location.href = "index.html";  // Redirection vers la page d'accueil
         } else {
@@ -102,8 +86,8 @@ const createUser = async (event) => {
         }
 
     } catch (error) {
-        console.error(error);  // Affiche l'erreur dans la console
-        alert("Erreur dans l'identifiant ou le mot de passe");  // Affiche un message d'erreur à l'utilisateur
+        console.error(error);
+        alert("Erreur dans l'identifiant ou le mot de passe");
     }
 };
 
@@ -115,39 +99,33 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Le formulaire n\'a pas été trouvé.');
     }
-
-    // toggleEditMode(); // Vérifier l'état de connexion
 });
 
 
-// MODE EDITION // 
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     console.log('DOM entièrement chargé et analysé');
+//**************** MODE EDITION ***********//
 
-//     const token = sessionStorage.getItem('token'); // Récupérer le token de session
-//     const topBar = document.querySelector('.edition-top-bar');
-//     const editButton = document.querySelector('.edition-link');
-//     const authLink = document.querySelector('.bold-login'); // lien header login 
+var token = localStorage.getItem('token');
+console.log(token);
 
-//     const currentPage = window.location.pathname.split('/').pop();
+let isUserLoggedIn = (token != null);
 
-//     if (currentPage === "index.html" || currentPage === "login.html") {
-//         if (token) {
-//             topBar.style.display = 'flex'; // Afficher la barre en haut
-//             editButton.style.display = 'inline-block'; // Afficher le bouton "Modifier"
-//             authLink.textContent = 'logout'; // remplace 'login' par 'logout' une fois connecté
-//             authLink.onclick = () => {
-//                 sessionStorage.removeItem('token'); // retire le token si click sur 'logout'
-//                 window.location.reload(); // recharge la page
-//             };
-//         } else {
-//             topBar.style.display = 'none'; // Masquer la barre
-//             editButton.style.display = 'none'; // Masquer le bouton "Modifier"
-//             authLink.textContent = 'login';
-//             authLink.onclick = () => {
-//                 window.location.href = "login.html";
-//             };
-//         }
-//     }
-// });
+const editTopBar = document.querySelector('.edition-top-bar');
+editTopBar.style.display = (isUserLoggedIn) ? 'block' : 'none';
+
+
+//************* CONNEXION ****************//
+const login = document.querySelector('.login');
+login.innerHTML = (isUserLoggedIn) ? 'logout' : 'login';
+
+
+// Déconnexion uniquement de la page login.html ????
+login.addEventListener('click', function(event) {
+    if (login.innerHTML === 'logout') { // Vérifier si le texte du bouton est "logout"
+        localStorage.removeItem('token'); // Supprime le token 
+        console.log('Vous êtes déconnecté');
+        window.location.href = "./login.html"; 
+    } else {
+        console.log('Vous devez d\'abord vous connecter.');
+    }
+});

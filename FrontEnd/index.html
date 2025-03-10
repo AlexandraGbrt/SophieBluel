@@ -13,10 +13,9 @@
 	<meta name="description" content="Page d'accueil">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="./assets/index.js" defer></script>
-	<script src="./assets/login.js" defer></script>
 </head>
 
-<!-- MODALE -->
+<!-- MODALE 1 -->
 <div id="editProjectModal" class="modal1">
     <div class="modal-content">
         <span class="close-button">&times;</span>
@@ -28,6 +27,17 @@
 	</div>
 </div>
 
+<!-- MODALE 2 : Ajouter une photo -->
+<div id="addPhotoModal" class="modal2">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Ajouter une photo</h2>
+        <form id="photo-form">
+            <input type="file" id="photo-file" name="photo" accept="image/*" required>
+            <input type="submit" value="Envoyer la photo">
+        </form>
+    </div>
+</div>
 
 <body>
 	<div class="edition-top-bar">
@@ -39,7 +49,7 @@
 			<ul>
 				<li><a href="#portfolio">projets </a></li>
 				<li><a href="#contact">contact</a></li>
-				<li><a href="./login.html">login </a></li>
+				<li><a href="./login.html" class="login">login </a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>

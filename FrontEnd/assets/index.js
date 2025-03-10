@@ -10,7 +10,7 @@ async function showWorksInModal() {
   // Construire le HTML pour chaque projet
   data.forEach(function (work) {
       const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
-      imageItem.classList.add('image-item'); // ?????
+      imageItem.classList.add('image-item');
 
       imageItem.innerHTML = `
           <img src="${work.imageUrl}" alt="Projet" class="modal-image">
@@ -20,24 +20,30 @@ async function showWorksInModal() {
   });
 }
 
-// Appeler cette fonction lors de l'ouverture de la modale
-async function openModal() {
-  const modal = document.getElementById('editProjectModal');
-  modal.style.display = 'block';
+// Récupère la div modale pour ouvrir et fermer la modale
+const modal = document.getElementById('editProjectModal');
 
-  // Appeler la fonction pour afficher les projets dans la modale
+// Ouvrir la modale et afficher les projets
+async function openModal() {
+  modal.style.display = 'block';
   await showWorksInModal();
 }
 
 // Fermer la modale
 function closeModal() {
-  const modal = document.getElementById('editProjectModal');
   modal.style.display = 'none';
 }
 
-// Associer les événements pour ouvrir et fermer la modale
+// Événements pour ouvrir et fermer la modale
 document.getElementById('openModalButton').addEventListener('click', openModal);
 document.querySelector('.close-button').addEventListener('click', closeModal);
+
+// ferme la modale si clic en dehors
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+      closeModal();
+  }
+});
 
 
 
@@ -78,7 +84,11 @@ async function showWorks() {
 
 showWorks();
 
-// Fonction pour afficher les catégories et ajouter des événements de clic
+
+
+
+//***************  AFFICHER LES CATEGORIES  ************//
+
 async function showCategories() {
   const data = await fetchData('http://localhost:5678/api/categories');
 
@@ -114,18 +124,46 @@ async function showCategories() {
 showCategories(); 
 
 
-// Fonction pour filtrer et trier les projets selon la catégorie sélectionnée
+
+//***************  FILTRER LES PROJETS  ************//
+
 function filterWorks(selectedCategory) {
   const workItems = document.querySelectorAll('.work-item');
 
  workItems.forEach(workItem => {
     const workCategory = workItem.getAttribute('data-category'); // Utiliser l'attribut data-category
 
-    if (selectedCategory === "Tous" || workCategory === selectedCategory) {
-      workItem.style.display = 'block'; // Afficher le projet
-    } else {
-      workItem.style.display = 'none'; // Masquer le projet
-    }
+    workItem.style.display = (selectedCategory === "Tous" || workCategory === selectedCategory) ? 'block' : 'none';
   });
 }
 
+//**************** MODE EDITION ***********//
+
+var token = localStorage.getItem('token');
+console.log(token);
+
+let isUserLoggedIn = (token != null);
+
+// Recupere les elements
+const editLink = document.querySelector('.edition-link');
+const editTopBar = document.querySelector('.edition-top-bar');
+
+// Si token different de "null" alors valeur 1 sinon valeur 2
+editLink.style.display = (isUserLoggedIn) ? 'block' : 'none';
+editTopBar.style.display = (isUserLoggedIn) ? 'block' : 'none';
+
+const login = document.querySelector('.login');
+// Si token different de null alors valeur 1 sinon valeur 2
+login.innerHTML = (isUserLoggedIn) ? 'logout' : 'login';
+
+
+// DECONNEXION
+login.addEventListener('click', function(event) {
+  if (login.innerHTML === 'logout') { // Vérifier si le texte du bouton est "logout"
+      localStorage.removeItem('token'); // Supprime le token 
+      console.log('Vous êtes déconnecté');
+      window.location.href = "./login.html"; 
+  } else {
+      console.log('Vous devez d\'abord vous connecter.');
+  }
+});
