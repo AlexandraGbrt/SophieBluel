@@ -184,7 +184,8 @@ body {
 
 /************** MODALE  *******************/
 
-.modal1 {
+.modal1,
+.modal2 {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -193,7 +194,6 @@ body {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.3);
-	/* Avec transparence */
 }
 
 .modal-content {
@@ -203,11 +203,9 @@ body {
 	border-radius: 10px;
 	background-color: #fefefe;
 	margin: 15% auto;
-	/* Centrer */
 	border: 1px solid #888;
 	overflow: auto;
 	box-sizing: border-box;
-	
 }
 
 .modal-content h2 {
@@ -215,17 +213,26 @@ body {
 	font-family: 'Work Sans';
 	font-size: 26px;
 	text-align: center;
-	margin: 60px auto;
+	margin: 60px auto 46px auto;
 }
 
-.add-photo {
+.add-photo,
+.validate-btn {
 	height: 36px;
-	width: 139px;
-	margin-top: 38px;
 	border: transparent;
-	font-size: 14px;
-	text-align: center;
+	width: 237px;
 	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 9px 40px;
+	font-size: 14px;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin: 2em auto;
+	text-align: center;
+	border-radius: 60px;
 }
 
 .close-button {
@@ -245,9 +252,9 @@ body {
 #project-list {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	gap: 10px;
+	grid-column-gap: 9px;
+	grid-row-gap: 29px;
 	margin: 0 105px;
-	justify-items: center;
 	padding-bottom: 65px;
 	border-bottom: 1px solid #B3B3B3;
 	width: 420px;
@@ -260,7 +267,7 @@ body {
 
 .image-item {
 	position: relative;
-	display: inline-block;	
+	display: inline-block;
 }
 
 .delete-icone {
@@ -276,6 +283,107 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+
+
+/* Modale 2 */
+
+.modal2 h2 {
+	margin: 60px auto 36px auto;
+	font-size: 26px;
+}
+
+.form-add-photo {
+	display: flex;
+	flex-direction: column;
+	width: 420px;
+	padding-bottom: calc(47px - 20px);   /* -20px margin categories */
+	border-bottom: 1px solid #B3B3B3;
+	background-color: #fefefe;
+	margin: auto;
+}
+
+.form-add-photo label {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	color: #3D3D3D;
+	margin-bottom: 10px;
+}
+
+.form-add-photo input,
+.form-add-photo select {
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 20px;
+}
+
+.modal2 .validate-btn {
+	background-color: #888;
+}
+
+.back-arrow-btn {
+	text-decoration: none;
+	border: none;
+	display: block;
+}
+
+.back-arrow {
+	position: absolute;
+	top: 26px;
+	left: 30px;
+	cursor: pointer;
+	margin-bottom: 10px;
+	font-size: 24px;
+}
+
+.areaInputPhoto {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: #E8F1F7;
+	border-radius: 3px;
+	margin-bottom: 30px;
+	overflow: hidden;
+	height: 170px;
+	width: 420px;
+}
+
+.areaInputPhoto i {
+	font-size: 70px;
+	color: #B9C5CC;
+	background: #E8F1F7;
+	margin-bottom: 6px;
+}
+
+.areaInputPhoto input[type="file"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	opacity: 0;
+}
+
+.areaInputPhoto .customButton {
+	display: inline-block;
+	padding: 10px 33px;
+	background-color: #CBD6DC;
+	color: #fff;
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+	color: #306685;
+}
+
+.areaInputPhoto .info-photo {
+	background: #E8F1F7;
+	margin-top: 7px;
+	font-size: 10px;
+	color: #444444
+}
+
 
 /************  HEADER  ********/
 
@@ -480,7 +588,6 @@ input[type="submit"] {
 
 
 
-
 /********* Style du LOGIN *********/
 .login {
 	display: flex;
@@ -488,8 +595,6 @@ input[type="submit"] {
 	align-items: center;
 	cursor: default;
 }
-
-
 
 .form-login {
 	display: flex;

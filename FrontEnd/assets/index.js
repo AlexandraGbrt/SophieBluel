@@ -1,52 +1,3 @@
-//***************  MODALE ************//
-
-// Fonction pour afficher uniquement les photos des projets dans la modale
-async function showWorksInModal() {
-  const data = await fetchData('http://localhost:5678/api/works'); // Récupérer les données des projets
-  const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
-
-  projectList.innerHTML = ''; // Vider le contenu précédent
-
-  // Construire le HTML pour chaque projet
-  data.forEach(function (work) {
-      const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
-      imageItem.classList.add('image-item');
-
-      imageItem.innerHTML = `
-          <img src="${work.imageUrl}" alt="Projet" class="modal-image">
-          <i class="fa-solid fa-trash-can delete-icone"></i>
-      `;
-      projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
-  });
-}
-
-// Récupère la div modale pour ouvrir et fermer la modale
-const modal = document.getElementById('editProjectModal');
-
-// Ouvrir la modale et afficher les projets
-async function openModal() {
-  modal.style.display = 'block';
-  await showWorksInModal();
-}
-
-// Fermer la modale
-function closeModal() {
-  modal.style.display = 'none';
-}
-
-// Événements pour ouvrir et fermer la modale
-document.getElementById('openModalButton').addEventListener('click', openModal);
-document.querySelector('.close-button').addEventListener('click', closeModal);
-
-// ferme la modale si clic en dehors
-window.addEventListener('click', (event) => {
-  if (event.target === modal) {
-      closeModal();
-  }
-});
-
-
-
 
 
 //***************  AFFICHER LES PROJETS  ************//
@@ -114,14 +65,14 @@ async function showCategories() {
   // Ajouter des gestionnaires d'événements aux boutons de catégorie
   const categoryButtons = document.querySelectorAll('.category-btn');
   categoryButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       const selectedCategory = button.getAttribute('data-category');
       filterWorks(selectedCategory); // Filtrer les travaux selon la catégorie
     });
   });
 }
 
-showCategories(); 
+showCategories();
 
 
 
@@ -130,7 +81,7 @@ showCategories();
 function filterWorks(selectedCategory) {
   const workItems = document.querySelectorAll('.work-item');
 
- workItems.forEach(workItem => {
+  workItems.forEach(workItem => {
     const workCategory = workItem.getAttribute('data-category'); // Utiliser l'attribut data-category
 
     workItem.style.display = (selectedCategory === "Tous" || workCategory === selectedCategory) ? 'block' : 'none';
@@ -158,12 +109,114 @@ login.innerHTML = (isUserLoggedIn) ? 'logout' : 'login';
 
 
 // DECONNEXION
-login.addEventListener('click', function(event) {
+login.addEventListener('click', function (event) {
   if (login.innerHTML === 'logout') { // Vérifier si le texte du bouton est "logout"
-      localStorage.removeItem('token'); // Supprime le token 
-      console.log('Vous êtes déconnecté');
-      window.location.href = "./login.html"; 
+    localStorage.removeItem('token'); // Supprime le token 
+    console.log('Vous êtes déconnecté');
+    window.location.href = "./login.html";
   } else {
-      console.log('Vous devez d\'abord vous connecter.');
+    console.log('Vous devez d\'abord vous connecter.');
   }
 });
+
+
+//***************  MODALE ************//
+
+// Fonction pour afficher uniquement les photos des projets dans la modale
+async function showWorksInModal() {
+  const data = await fetchData('http://localhost:5678/api/works'); // Récupérer les données des projets
+  const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
+
+  projectList.innerHTML = ''; // Vider le contenu précédent
+
+  // Construire le HTML pour chaque projet
+  data.forEach(function (work) {
+    const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
+    imageItem.classList.add('image-item');
+
+    imageItem.innerHTML = `
+          <img src="${work.imageUrl}" alt="Projet" class="modal-image">
+          <i class="fa-solid fa-trash-can delete-icone"></i>
+      `;
+    projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
+  });
+}
+
+// Récupère les divs pour ouvrir et fermer les modales
+const modal1 = document.getElementById('editProjectModal'); 
+const modal2 = document.getElementById('addPhotoModal'); 
+
+// Ouvrir la modale 1 et afficher les projets
+async function openModal1() {
+  modal1.style.display = 'block';
+  await showWorksInModal();
+}
+
+// Fermer la modale 1
+function closeModal1() {
+  modal1.style.display = 'none';
+}
+
+// Ouvrir la modale 2 (Ajouter une photo)
+function openModal2() {
+  modal2.style.display = 'block';
+}
+
+// Fermer la modale 2
+function closeModal2() {
+  modal2.style.display = 'none';
+}
+
+// Ouvrir et fermer la modale 1
+document.getElementById('openModalButton').addEventListener('click', openModal1);
+document.querySelector('.close-button').addEventListener('click', closeModal1);
+
+// Ouvrir  la modale 2 (Ajouter une photo)
+document.querySelector('.add-photo').addEventListener('click', openModal2);
+
+// fermeture des deux modales quand on clique sur le bouton de fermeture de la modale 2
+document.querySelector('#addPhotoModal .close-button').addEventListener('click', () => {
+  closeModal1();
+  closeModal2(); 
+});
+
+// revenir à la modale 1
+document.querySelector('.back-arrow-btn').addEventListener('click', () => {
+  closeModal2();
+  openModal1();  
+});
+
+// Ferme les deux modales si clic en dehors de la modale
+window.addEventListener('click', (event) => {
+  if (event.target === modal1 || event.target === modal2) {
+    closeModal1();
+    closeModal2();
+  }
+  // (event.target === modal1 || event.target === modal2) ? (closeModal1(), closeModal2()) : null;
+});
+
+
+/**************** AFFICHER LES CATEGORIES DANS LA MODALE 2 ************/
+
+async function showCategoriesInModal() {
+  const data = await fetchData('http://localhost:5678/api/categories');
+
+  const selectElement = document.getElementById('photo-category'); // Cible l'élément select de la modale
+
+  // Vider le select avant d'ajouter les nouvelles options
+  selectElement.innerHTML = ''; 
+
+  // Ajouter une option vide pour choisir la catégorie
+  const categoryOption = document.createElement('option');
+  categoryOption.value = '';
+  selectElement.appendChild(categoryOption);
+
+  data.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.name; // Utiliser le nom de la catégorie comme valeur
+    option.textContent = category.name; // Afficher le nom de la catégorie
+    selectElement.appendChild(option);
+  });
+}
+
+showCategoriesInModal(); 
