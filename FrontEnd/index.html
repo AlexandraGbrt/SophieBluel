@@ -16,21 +16,21 @@
 </head>
 
 <!-- Overlay -->
-<div id="overlay" class="overlay"></div>
+<!-- <div id="overlay" class="overlay"></div> -->
 
-<!-- MODALE 1 -->
+ <!-- MODALE 1 -->
 <div id="editProjectModal" class="modal1">
 	<div class="modal-content">
 		<i class="fa-solid fa-xmark close-button"></i>
 		<h2>Galerie photo</h2>
-		<div id="project-list">
-			<i class="fa-solid fa-trash-can delete-icone"></i>
+		<div id="project-list" data-projet-id="1">
+			<i class="fa-solid fa-trash-can delete-icone" ></i>
 		</div>
 		<button class="add-photo">Ajouter une photo</button>
 	</div>
 </div>
 
-<!-- MODALE 2 : Ajouter une photo -->
+ <!-- MODALE 2 : Ajouter une photo -->
 <div id="addPhotoModal" class="modal2">
 	<div class="modal-content">
 		<button class="back-arrow-btn"><i class="fa-solid fa-arrow-left back-arrow"></i></button>
@@ -52,7 +52,8 @@
 		</form>
 		<input type="submit" value="Valider" class="validate-btn">
 	</div>
-</div>
+</div> 
+ 
 
 <body>
 	<div class="edition-top-bar">

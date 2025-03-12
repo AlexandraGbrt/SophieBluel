@@ -202,7 +202,7 @@ body {
 	height: 688px;
 	border-radius: 10px;
 	background-color: #fefefe;
-	margin: 15% auto;
+	margin: 12% auto;
 	border: 1px solid #888;
 	overflow: auto;
 	box-sizing: border-box;
@@ -214,6 +214,7 @@ body {
 	font-size: 26px;
 	text-align: center;
 	margin: 60px auto 46px auto;
+	background-color: #FFFFFF;
 }
 
 .add-photo,
@@ -256,8 +257,9 @@ body {
 	grid-row-gap: 29px;
 	margin: 0 105px;
 	padding-bottom: 65px;
-	border-bottom: 1px solid #B3B3B3;
 	width: 420px;
+	border-bottom: 1px solid #B3B3B3;
+	background-color: #FFFFFF;
 }
 
 .modal-image {
@@ -271,6 +273,7 @@ body {
 }
 
 .delete-icone {
+	cursor: pointer;
 	position: absolute;
 	color: white;
 	top: 6px;
@@ -309,6 +312,7 @@ body {
 	font-size: 14px;
 	color: #3D3D3D;
 	margin-bottom: 10px;
+	background-color: #FFFFFF;
 }
 
 .form-add-photo input,

@@ -122,9 +122,8 @@ login.addEventListener('click', function (event) {
 
 //***************  MODALE ************//
 
-// Fonction pour afficher uniquement les photos des projets dans la modale
 async function showWorksInModal() {
-  const data = await fetchData('http://localhost:5678/api/works'); // Récupérer les données des projets
+  const data = await fetchData('http://localhost:5678/api/works'); 
   const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
 
   projectList.innerHTML = ''; // Vider le contenu précédent
@@ -136,15 +135,64 @@ async function showWorksInModal() {
 
     imageItem.innerHTML = `
           <img src="${work.imageUrl}" alt="Projet" class="modal-image">
-          <i class="fa-solid fa-trash-can delete-icone"></i>
+          <i class="fa-solid fa-trash-can delete-icone" data-projet-id="${work.id}"></i>
       `;
     projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
   });
+
+  // fonction de suppression des projets
+  deleteWorks();
 }
 
+
+//**************** SUPPRESSION DES PROJETS *******************/
+
+function deleteWorks() {
+  const deleteIcons = document.querySelectorAll('.delete-icone'); // récupérer les 'delete-icone'
+
+  deleteIcons.forEach(icon => {
+    icon.addEventListener('click', async function () {
+      const projetId = icon.getAttribute('data-projet-id'); // Récupérer l'ID du projet 
+      const token = localStorage.getItem('token');  // Vérifier si le token est présent
+
+      if (!token) {
+        return; // On arrête la fonction si token absent
+      }
+
+      // Confirmer la suppression
+      if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
+        try {
+          const response = await fetch(`http://localhost:5678/api/works/${projetId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          });
+
+          if (response.ok) {
+            alert("Le projet a été supprimé !");
+            icon.closest('div').remove(); // supprime le projet
+
+
+            
+          } else {
+            alert("Échec de la suppression du projet.");
+          }
+        } catch (error) {
+          console.error("Erreur lors de la suppression du projet:", error);
+        }
+      }
+    });
+  });
+}
+
+
+
+//******************* OUVERTURE-FERMETURE DES MODALES *******************/
+
 // Récupère les divs pour ouvrir et fermer les modales
-const modal1 = document.getElementById('editProjectModal'); 
-const modal2 = document.getElementById('addPhotoModal'); 
+const modal1 = document.getElementById('editProjectModal');
+const modal2 = document.getElementById('addPhotoModal');
 
 // Ouvrir la modale 1 et afficher les projets
 async function openModal1() {
@@ -177,13 +225,13 @@ document.querySelector('.add-photo').addEventListener('click', openModal2);
 // fermeture des deux modales quand on clique sur le bouton de fermeture de la modale 2
 document.querySelector('#addPhotoModal .close-button').addEventListener('click', () => {
   closeModal1();
-  closeModal2(); 
+  closeModal2();
 });
 
 // revenir à la modale 1
 document.querySelector('.back-arrow-btn').addEventListener('click', () => {
   closeModal2();
-  openModal1();  
+  openModal1();
 });
 
 // Ferme les deux modales si clic en dehors de la modale
@@ -204,7 +252,7 @@ async function showCategoriesInModal() {
   const selectElement = document.getElementById('photo-category'); // Cible l'élément select de la modale
 
   // Vider le select avant d'ajouter les nouvelles options
-  selectElement.innerHTML = ''; 
+  selectElement.innerHTML = '';
 
   // Ajouter une option vide pour choisir la catégorie
   const categoryOption = document.createElement('option');
@@ -219,4 +267,8 @@ async function showCategoriesInModal() {
   });
 }
 
-showCategoriesInModal(); 
+showCategoriesInModal();
+
+
+
+
