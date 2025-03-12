@@ -123,7 +123,7 @@ login.addEventListener('click', function (event) {
 //***************  MODALE ************//
 
 async function showWorksInModal() {
-  const data = await fetchData('http://localhost:5678/api/works'); 
+  const data = await fetchData('http://localhost:5678/api/works');
   const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
 
   projectList.innerHTML = ''; // Vider le contenu précédent
@@ -174,7 +174,6 @@ function deleteWorks() {
             icon.closest('div').remove(); // supprime le projet
 
 
-            
           } else {
             alert("Échec de la suppression du projet.");
           }
@@ -185,6 +184,58 @@ function deleteWorks() {
     });
   });
 }
+
+//****************** AJOUTER UN PROJET *****************/
+
+const form = document.querySelector('.form-add-photo')
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form); // crée un objet avec les données du formulaire
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert("Vous devez être connecté pour ajouter un projet.");
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5678/api/works', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+      },
+      body: formData, // envoi des données sous forme de FormData
+    });
+
+    if (response.ok) {
+      const newWork = await response.json();
+      console.log('Projet ajouté :', newWork);
+
+      const workList = document.querySelector('.gallery');
+      const newWorkItem = document.createElement('figure');
+      newWorkItem.classList.add('work-item');
+      newWorkItem.innerHTML = `
+        <figure class="work-item" data-category="${newWork.category.name}">
+          <img src="${newWork.imageUrl}" alt="${newWork.title}">
+          <figcaption>${newWork.title}</figcaption>
+        </figure>
+        `;
+      workList.appendChild(newWorkItem);
+    } else {
+      alert("Échec de l'ajout du projet.");
+    }
+  } catch (error) {
+    console.error('Erreur:', error);
+  }
+});
+
+
+
+
+
+
+
 
 
 

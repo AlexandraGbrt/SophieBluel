@@ -300,7 +300,6 @@ body {
 	flex-direction: column;
 	width: 420px;
 	padding-bottom: calc(47px - 20px);   /* -20px margin categories */
-	border-bottom: 1px solid #B3B3B3;
 	background-color: #fefefe;
 	margin: auto;
 }
@@ -323,8 +322,16 @@ body {
 	margin-bottom: 20px;
 }
 
+.border-separator {
+	border-bottom: 1px solid #888;
+    margin-top: 47px;
+    margin-bottom: 32px; 
+}
+
 .modal2 .validate-btn {
 	background-color: #888;
+	cursor: pointer;
+	margin-top: 0;
 }
 
 .back-arrow-btn {
@@ -388,7 +395,6 @@ body {
 	color: #444444
 }
 
-
 /************  HEADER  ********/
 
 header {
@@ -397,25 +403,12 @@ header {
 	margin: 50px 0;
 }
 
-/* header a {
-	text-decoration: none;
-	color: black;
-	font-weight: lighter;
-} */
-
-/* header a:hover {
-	font-weight: bold;
-	color: black;
-} */
-
 .login-page .bold-login {
 	font-weight: bold;
 	/* color: red; */
 }
 
 /******** **********/
-
-
 
 section {
 	margin: 50px 0
