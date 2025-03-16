@@ -1,4 +1,4 @@
-
+const baseUrl = "http://localhost:5678/api"
 
 //***************  AFFICHER LES PROJETS  ************//
 
@@ -17,7 +17,7 @@ async function fetchData(url) {
 
 // Fonction pour afficher les projets
 async function showWorks() {
-  const data = await fetchData('http://localhost:5678/api/works');
+  const data = await fetchData(`${baseUrl}/works`);
   const gallery = document.querySelector('.gallery');
 
   let galleryHTML = ''; // Sert de conteneur pour chaque projet
@@ -31,6 +31,7 @@ async function showWorks() {
     `;
   });
   gallery.innerHTML = galleryHTML; // Contenu de chaque projet dans le conteneur global
+
 }
 
 showWorks();
@@ -41,7 +42,7 @@ showWorks();
 //***************  AFFICHER LES CATEGORIES  ************//
 
 async function showCategories() {
-  const data = await fetchData('http://localhost:5678/api/categories');
+  const data = await fetchData(`${baseUrl}/categories`);
 
   // Ajouter la catégorie "Tous" 
   const categories = [{ name: "Tous" }, ...data];
@@ -76,17 +77,22 @@ showCategories();
 
 
 
+
+
 //***************  FILTRER LES PROJETS  ************//
 
 function filterWorks(selectedCategory) {
   const workItems = document.querySelectorAll('.work-item');
 
   workItems.forEach(workItem => {
-    const workCategory = workItem.getAttribute('data-category'); // Utiliser l'attribut data-category
+    const workCategory = workItem.getAttribute('data-category');
 
     workItem.style.display = (selectedCategory === "Tous" || workCategory === selectedCategory) ? 'block' : 'none';
   });
 }
+
+
+
 
 //**************** MODE EDITION ***********//
 
@@ -120,10 +126,12 @@ login.addEventListener('click', function (event) {
 });
 
 
+
+
 //***************  MODALE ************//
 
 async function showWorksInModal() {
-  const data = await fetchData('http://localhost:5678/api/works');
+  const data = await fetchData(`${baseUrl}/works`);
   const projectList = document.getElementById('project-list'); // Zone de la modale pour afficher les images
 
   projectList.innerHTML = ''; // Vider le contenu précédent
@@ -153,16 +161,17 @@ function deleteWorks() {
   deleteIcons.forEach(icon => {
     icon.addEventListener('click', async function () {
       const projetId = icon.getAttribute('data-projet-id'); // Récupérer l'ID du projet 
-      const token = localStorage.getItem('token');  // Vérifier si le token est présent
-
+      const token = localStorage.getItem('token');
+      // Vérifier si le token est présent
       if (!token) {
         return; // On arrête la fonction si token absent
       }
 
       // Confirmer la suppression
       if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
+
         try {
-          const response = await fetch(`http://localhost:5678/api/works/${projetId}`, {
+          const response = await fetch(`${baseUrl}/works/${projetId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': 'Bearer ' + token
@@ -170,7 +179,7 @@ function deleteWorks() {
           });
 
           if (response.ok) {
-            alert("Le projet a été supprimé !");
+            // alert("Le projet a été supprimé !");
             icon.closest('div').remove(); // supprime le projet
 
 
@@ -185,13 +194,20 @@ function deleteWorks() {
   });
 }
 
+
+
+
 //****************** AJOUTER UN PROJET *****************/
 
 const form = document.querySelector('.form-add-photo')
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   const formData = new FormData(form); // crée un objet avec les données du formulaire
+  formData.forEach((value, key) => {
+    console.log(key, value);
+  });
 
   const token = localStorage.getItem('token');
   if (!token) {
@@ -200,7 +216,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   try {
-    const response = await fetch('http://localhost:5678/api/works', {
+    const response = await fetch(`${baseUrl}/works`, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -216,12 +232,16 @@ form.addEventListener('submit', async (event) => {
       const newWorkItem = document.createElement('figure');
       newWorkItem.classList.add('work-item');
       newWorkItem.innerHTML = `
-        <figure class="work-item" data-category="${newWork.category.name}">
+        <figure class="work-item" data-category="${newWork.categoryId}">
           <img src="${newWork.imageUrl}" alt="${newWork.title}">
           <figcaption>${newWork.title}</figcaption>
         </figure>
         `;
       workList.appendChild(newWorkItem);
+
+      // Réattacher les événements de suppression au NOUVEAU projet
+      deleteWorks();
+
     } else {
       alert("Échec de l'ajout du projet.");
     }
@@ -230,6 +250,66 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
+
+//*************** Vérifie le contenu des champs du formulaire */
+
+const validateBtn = form.querySelector('.validate-btn');
+const inputPhoto = form.querySelector('#inputPhoto');
+const title = form.querySelector('#title');
+const photoCategory = form.querySelector('#photo-category');
+
+function colorValidateBtn() {
+  // Vérifier si tous les champs sont remplis
+  if (inputPhoto.files.length > 0 && title.value !== "" && photoCategory.value !== "") {
+    validateBtn.classList.add("active");  // Le bouton devient vert
+  } else {
+    validateBtn.classList.remove("active");  // Le bouton redevient gris
+  }
+}
+
+// Ajouter des événements d'écoute pour chaque champ de formulaire
+inputPhoto.addEventListener('change', colorValidateBtn);
+title.addEventListener('input', colorValidateBtn);
+photoCategory.addEventListener('change', colorValidateBtn);
+
+
+//*************** Aperçu de l'image selectionnée ****/
+
+const photoInput = document.getElementById('inputPhoto');
+const areaInputPhoto = document.querySelector('.areaInputPhoto');
+
+photoInput.addEventListener('change', function (event) {
+  const file = event.target.files[0]; // Récupère le fichier sélectionné
+
+  if (file) {
+    const reader = new FileReader(); // crée un objet FileReader pour lire le contenu
+
+    reader.onload = function (e) { // action à effectuer quand la lecture est terminée
+      const imageURL = e.target.result;
+
+      // Créer un nouvel élément image
+      const photoPreview = document.createElement('img');
+      photoPreview.src = imageURL;
+      photoPreview.style.maxHeight = '100%';
+      photoPreview.style.objectFit = 'contain';
+
+      // Masquer les éléments existants (input, label, icône)
+      const icon = areaInputPhoto.querySelector('i');
+      const label = areaInputPhoto.querySelector('label');
+      const input = areaInputPhoto.querySelector('input');
+      const span = areaInputPhoto.querySelector('span');
+
+      icon.style.display = 'none';
+      label.style.display = 'none';  
+      input.style.display = 'none';  
+      span.style.display = 'none';
+
+      areaInputPhoto.appendChild(photoPreview); // Ajouter l'image dans la zone
+    };
+
+    reader.readAsDataURL(file);
+  }
+});
 
 
 
@@ -242,63 +322,62 @@ form.addEventListener('submit', async (event) => {
 //******************* OUVERTURE-FERMETURE DES MODALES *******************/
 
 // Récupère les divs pour ouvrir et fermer les modales
-const modal1 = document.getElementById('editProjectModal');
-const modal2 = document.getElementById('addPhotoModal');
+const editWorksModal = document.getElementById('editProjectModal');
+const addPhotoModal = document.getElementById('addPhotoModal');
 
 // Ouvrir la modale 1 et afficher les projets
-async function openModal1() {
-  modal1.style.display = 'block';
+async function openEditWorksModal() {
+  editWorksModal.style.display = 'block';
   await showWorksInModal();
 }
 
 // Fermer la modale 1
-function closeModal1() {
-  modal1.style.display = 'none';
+function closeEditWorksModal() {
+  editWorksModal.style.display = 'none';
 }
 
 // Ouvrir la modale 2 (Ajouter une photo)
-function openModal2() {
-  modal2.style.display = 'block';
+function openAddPhotoModal() {
+  addPhotoModal.style.display = 'block';
 }
 
 // Fermer la modale 2
-function closeModal2() {
-  modal2.style.display = 'none';
+function closeAddPhotoModal() {
+  addPhotoModal.style.display = 'none';
 }
 
 // Ouvrir et fermer la modale 1
-document.getElementById('openModalButton').addEventListener('click', openModal1);
-document.querySelector('.close-button').addEventListener('click', closeModal1);
+document.getElementById('openModalButton').addEventListener('click', openEditWorksModal);
+document.querySelector('.close-button').addEventListener('click', closeEditWorksModal);
 
 // Ouvrir  la modale 2 (Ajouter une photo)
-document.querySelector('.add-photo').addEventListener('click', openModal2);
+document.querySelector('.add-photo').addEventListener('click', openAddPhotoModal);
 
 // fermeture des deux modales quand on clique sur le bouton de fermeture de la modale 2
 document.querySelector('#addPhotoModal .close-button').addEventListener('click', () => {
-  closeModal1();
-  closeModal2();
+  closeEditWorksModal();
+  closeAddPhotoModal();
 });
 
 // revenir à la modale 1
 document.querySelector('.back-arrow-btn').addEventListener('click', () => {
-  closeModal2();
-  openModal1();
+  closeAddPhotoModal();
+  openEditWorksModal();
 });
 
 // Ferme les deux modales si clic en dehors de la modale
 window.addEventListener('click', (event) => {
-  if (event.target === modal1 || event.target === modal2) {
-    closeModal1();
-    closeModal2();
+  if (event.target === editWorksModal || event.target === addPhotoModal) {
+    closeEditWorksModal();
+    closeAddPhotoModal();
   }
-  // (event.target === modal1 || event.target === modal2) ? (closeModal1(), closeModal2()) : null;
 });
 
 
 /**************** AFFICHER LES CATEGORIES DANS LA MODALE 2 ************/
 
 async function showCategoriesInModal() {
-  const data = await fetchData('http://localhost:5678/api/categories');
+  const data = await fetchData(`${baseUrl}/categories`);
 
   const selectElement = document.getElementById('photo-category'); // Cible l'élément select de la modale
 
@@ -312,7 +391,7 @@ async function showCategoriesInModal() {
 
   data.forEach(category => {
     const option = document.createElement('option');
-    option.value = category.name; // Utiliser le nom de la catégorie comme valeur
+    option.value = category.id; // Utiliser le nom de la catégorie comme valeur
     option.textContent = category.name; // Afficher le nom de la catégorie
     selectElement.appendChild(option);
   });

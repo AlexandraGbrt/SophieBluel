@@ -109,10 +109,6 @@ section {
 	display: block;
 }
 
-/* html {
-	background-color: white;
-} */
-
 ol,
 ul {
 	list-style: none;
@@ -141,26 +137,39 @@ table {
 	border-spacing: 0;
 }
 
+html,
+body{
+	overflow-x: hidden;
+}
+
 /** end reset css**/
 body {
-	max-width: 1140px;
-	margin: auto;
+	max-width: 1440px;
+	margin: 0 auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
 	line-height: 1;
-	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center; 
 }
+
+header,
+main {
+	width: 1140px;}
+
 
 /************** MODE EDITION *****************/
 
 .edition-top-bar {
+	text-align: center;
+	display: none;
 	background-color: black;
 	color: white;
 	padding: 30px;
-	/* height: 59px; */
 	width: 100%;
-	text-align: center;
-	display: none;
+	margin: auto;
 }
 
 .edition-top-bar i {
@@ -255,7 +264,7 @@ body {
 	grid-template-columns: repeat(5, 1fr);
 	grid-column-gap: 9px;
 	grid-row-gap: 29px;
-	margin: 0 105px;
+	margin: 0 auto;
 	padding-bottom: 65px;
 	width: 420px;
 	border-bottom: 1px solid #B3B3B3;
@@ -328,10 +337,14 @@ body {
     margin-bottom: 32px; 
 }
 
-.modal2 .validate-btn {
+.validate-btn {
 	background-color: #888;
 	cursor: pointer;
 	margin-top: 0;
+}
+
+.validate-btn.active {
+	background-color: #1D6154; 
 }
 
 .back-arrow-btn {
@@ -403,6 +416,9 @@ header {
 	margin: 50px 0;
 }
 
+.bold-login {
+	cursor: pointer;
+}
 .login-page .bold-login {
 	font-weight: bold;
 	/* color: red; */
@@ -508,7 +524,6 @@ li:hover {
 }
 
 .category-btn {
-	/* border: none; */
 	display: inline-block;
 	padding: 5px 10px;
 	cursor: pointer;
@@ -586,11 +601,11 @@ input[type="submit"] {
 
 
 /********* Style du LOGIN *********/
+
 .login {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	cursor: default;
 }
 
 .form-login {
@@ -628,13 +643,18 @@ footer {
 	background-color: #FFFFFF;
 	display: flex;
 	justify-content: flex-end;
+	width: 1440px;
+	margin-right: 107px;
+
 }
 
 .login-page footer {
 	position: fixed;
 	bottom: 0;
-	/* width: 100%; */
-	right: 100px;
+}
+
+footer nav{
+	background-color: #FFFFFF;
 }
 
 footer ul {
