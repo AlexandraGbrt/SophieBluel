@@ -23,8 +23,9 @@ async function showWorks() {
   let galleryHTML = ''; // Sert de conteneur pour chaque projet
   data.forEach(function (work) {
     // Construire le HTML pour chaque projet
+    // TODO FONCTION (work)
     galleryHTML += `
-      <figure class="work-item" data-category="${work.category.name}">
+      <figure class="work-item" data-id="${work.id}" data-category="${work.category.id}">
         <img src="${work.imageUrl}" alt="${work.title}">
         <figcaption>${work.title}</figcaption>
       </figure>
@@ -54,7 +55,7 @@ async function showCategories() {
   let menuHTML = '';  // Initialisation de la chaîne vide pour le HTML
   categories.forEach(category => {
     menuHTML += `
-    <li><button class="category-btn" data-category="${category.name}">${category.name}</button></li>
+    <li><button class="category-btn" data-category="${category.id}">${category.name}</button></li>
     `;
   });
 
@@ -86,7 +87,6 @@ function filterWorks(selectedCategory) {
 
   workItems.forEach(workItem => {
     const workCategory = workItem.getAttribute('data-category');
-
     workItem.style.display = (selectedCategory === "Tous" || workCategory === selectedCategory) ? 'block' : 'none';
   });
 }
@@ -96,8 +96,7 @@ function filterWorks(selectedCategory) {
 
 //**************** MODE EDITION ***********//
 
-var token = localStorage.getItem('token');
-console.log(token);
+const token = localStorage.getItem('token');
 
 let isUserLoggedIn = (token != null);
 
@@ -138,13 +137,16 @@ async function showWorksInModal() {
 
   // Construire le HTML pour chaque projet
   data.forEach(function (work) {
-    const imageItem = document.createElement('div'); // Créer un élément div pour chaque image
-    imageItem.classList.add('image-item');
-
+    const imageItem = document.createElement('figure'); // Créer un élément div pour chaque image
+    imageItem.classList.add('work-item');
+    imageItem.setAttribute('data-id', work.id);
+    
+    // Ajouter l'image et l'icône dans l'élément figure
     imageItem.innerHTML = `
-          <img src="${work.imageUrl}" alt="Projet" class="modal-image">
-          <i class="fa-solid fa-trash-can delete-icone" data-projet-id="${work.id}"></i>
-      `;
+      <img src="${work.imageUrl}" alt="Projet" class="modal-image">
+      <i class="fa-solid fa-trash-can delete-icone"></i>
+    `;
+
     projectList.appendChild(imageItem); // Ajouter l'image à la liste de la modale
   });
 
@@ -160,8 +162,11 @@ function deleteWorks() {
 
   deleteIcons.forEach(icon => {
     icon.addEventListener('click', async function () {
-      const projetId = icon.getAttribute('data-projet-id'); // Récupérer l'ID du projet 
+      // const projetId = icon.getAttribute('data-id'); // Récupérer l'ID du projet 
+
+      const projetId = icon.closest('.work-item').getAttribute('data-id');
       const token = localStorage.getItem('token');
+
       // Vérifier si le token est présent
       if (!token) {
         return; // On arrête la fonction si token absent
@@ -179,8 +184,15 @@ function deleteWorks() {
           });
 
           if (response.ok) {
-            // alert("Le projet a été supprimé !");
-            icon.closest('div').remove(); // supprime le projet
+            alert("Le projet a été supprimé !");
+
+            icon.closest('figure').remove(); // supprime le projet
+
+            const projectInIndex = document.querySelector(`figure.work-item[data-id="${projetId}"]`);
+            if (projectInIndex) {
+              projectInIndex.remove();
+            }
+
 
 
           } else {
@@ -229,8 +241,8 @@ form.addEventListener('submit', async (event) => {
       console.log('Projet ajouté :', newWork);
 
       const workList = document.querySelector('.gallery');
+      // TODO FONCTION (work)
       const newWorkItem = document.createElement('figure');
-      newWorkItem.classList.add('work-item');
       newWorkItem.innerHTML = `
         <figure class="work-item" data-category="${newWork.categoryId}">
           <img src="${newWork.imageUrl}" alt="${newWork.title}">
@@ -300,8 +312,8 @@ photoInput.addEventListener('change', function (event) {
       const span = areaInputPhoto.querySelector('span');
 
       icon.style.display = 'none';
-      label.style.display = 'none';  
-      input.style.display = 'none';  
+      label.style.display = 'none';
+      input.style.display = 'none';
       span.style.display = 'none';
 
       areaInputPhoto.appendChild(photoPreview); // Ajouter l'image dans la zone
