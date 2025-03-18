@@ -137,27 +137,32 @@ table {
 	border-spacing: 0;
 }
 
+
+
+/** end reset css**/
+
 html,
 body{
 	overflow-x: hidden;
 }
 
-/** end reset css**/
+
 body {
 	max-width: 1440px;
 	margin: 0 auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
 	line-height: 1;
-	display: flex;
+	/* display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center; 
+	align-items: center;  */
 }
 
-header,
 main {
-	width: 1140px;}
+	margin: 0 auto;
+	max-width: 1140px;
+}
 
 
 /************** MODE EDITION *****************/
@@ -167,8 +172,10 @@ main {
 	display: none;
 	background-color: black;
 	color: white;
-	padding: 30px;
+	padding-top: 30px;
+	padding-bottom: 30px;
 	width: 100%;
+	max-width: 1440px;
 	margin: auto;
 }
 
@@ -187,14 +194,15 @@ main {
 	padding-left: 31px;
 	cursor: pointer;
 	display: none;
+	font-weight: 400;
 }
 
 
 
 /************** MODALE  *******************/
 
-.modal1,
-.modal2 {
+.modal-gallery,
+.modal-photo {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -221,6 +229,7 @@ main {
 	color: black;
 	font-family: 'Work Sans';
 	font-size: 26px;
+	font-weight: 400;
 	text-align: center;
 	margin: 60px auto 46px auto;
 	background-color: #FFFFFF;
@@ -297,11 +306,10 @@ main {
 }
 
 
-/* Modale 2 */
+/***** Modale 2 ******/
 
-.modal2 h2 {
+.modal-photo h2 {
 	margin: 60px auto 36px auto;
-	font-size: 26px;
 }
 
 .form-add-photo {
@@ -346,6 +354,7 @@ main {
 .validate-btn.active {
 	background-color: #1D6154; 
 }
+
 
 .back-arrow-btn {
 	text-decoration: none;
@@ -413,16 +422,42 @@ main {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0;
+	/* margin: 50px 0; */
+	margin: 50px auto;
+	max-width: 1140px;
+	
 }
 
-.bold-login {
-	cursor: pointer;
-}
+
 .login-page .bold-login {
-	font-weight: bold;
+	font-weight: 600;
 	/* color: red; */
 }
+
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+	gap: 44px;
+	cursor: pointer;
+
+}
+
+nav li {
+	/* padding: 0 10px; */
+	font-size: 16px;
+}
+
+nav li img {
+	height: 22px;
+	width: 22px;
+}
+
+li:hover {
+	color: #B1663C;
+}
+
+
 
 /******** **********/
 
@@ -452,21 +487,7 @@ h2 {
 	color: #1D6154
 }
 
-nav ul {
-	display: flex;
-	align-items: center;
-	list-style-type: none;
 
-}
-
-nav li {
-	padding: 0 10px;
-	font-size: 1.2em;
-}
-
-li:hover {
-	color: #B1663C;
-}
 
 #introduction {
 	display: flex;
@@ -594,7 +615,8 @@ input[type="submit"] {
 
 #btn-send:hover,
 .btn-log:hover,
-.add-photo:hover {
+.add-photo:hover,
+.validate-btn.active:hover {
 	background-color: #0E2F28;
 }
 
@@ -643,9 +665,9 @@ footer {
 	background-color: #FFFFFF;
 	display: flex;
 	justify-content: flex-end;
-	width: 1440px;
-	margin-right: 107px;
-
+	width: 100%;
+	/* max-width: 1440px; */
+	
 }
 
 .login-page footer {
@@ -661,8 +683,6 @@ footer ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 28px;
+	padding-right: 107px;
+	font-size: 14px;
 }
-
-/* footer li {
-	background-color: #FFFFFF;
-} */

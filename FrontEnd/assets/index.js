@@ -15,6 +15,16 @@ async function fetchData(url) {
   }
 }
 
+//******  Génère le HTML de chaque projet (réutiliser dans la fonction ajout de projet) ******/
+// function createWorkHTML(work) {
+//   return `
+//     <figure class="work-item" data-id="${work.id}" data-category="${work.category.id}">
+//       <img src="${work.imageUrl}" alt="${work.title}">
+//       <figcaption>${work.title}</figcaption>
+//     </figure>
+//   `;
+// }
+
 // Fonction pour afficher les projets
 async function showWorks() {
   const data = await fetchData(`${baseUrl}/works`);
@@ -23,7 +33,7 @@ async function showWorks() {
   let galleryHTML = ''; // Sert de conteneur pour chaque projet
   data.forEach(function (work) {
     // Construire le HTML pour chaque projet
-    // TODO FONCTION (work)
+    // TODO function(work)
     galleryHTML += `
       <figure class="work-item" data-id="${work.id}" data-category="${work.category.id}">
         <img src="${work.imageUrl}" alt="${work.title}">
@@ -32,7 +42,6 @@ async function showWorks() {
     `;
   });
   gallery.innerHTML = galleryHTML; // Contenu de chaque projet dans le conteneur global
-
 }
 
 showWorks();
@@ -45,8 +54,9 @@ showWorks();
 async function showCategories() {
   const data = await fetchData(`${baseUrl}/categories`);
 
-  // Ajouter la catégorie "Tous" 
-  const categories = [{ name: "Tous" }, ...data];
+  // Ajouter la catégorie "Tous"
+  const categories = [{ id: "Tous", name: "Tous" }, ...data];
+
 
   const menu = document.createElement('ul');
   menu.id = 'menu_categories';
@@ -140,7 +150,7 @@ async function showWorksInModal() {
     const imageItem = document.createElement('figure'); // Créer un élément div pour chaque image
     imageItem.classList.add('work-item');
     imageItem.setAttribute('data-id', work.id);
-    
+
     // Ajouter l'image et l'icône dans l'élément figure
     imageItem.innerHTML = `
       <img src="${work.imageUrl}" alt="Projet" class="modal-image">
@@ -153,6 +163,8 @@ async function showWorksInModal() {
   // fonction de suppression des projets
   deleteWorks();
 }
+
+
 
 
 //**************** SUPPRESSION DES PROJETS *******************/
@@ -187,14 +199,10 @@ function deleteWorks() {
             alert("Le projet a été supprimé !");
 
             icon.closest('figure').remove(); // supprime le projet
-
             const projectInIndex = document.querySelector(`figure.work-item[data-id="${projetId}"]`);
             if (projectInIndex) {
               projectInIndex.remove();
             }
-
-
-
           } else {
             alert("Échec de la suppression du projet.");
           }
@@ -251,6 +259,9 @@ form.addEventListener('submit', async (event) => {
         `;
       workList.appendChild(newWorkItem);
 
+      // Réinitialiser le formulaire, y compris l'aperçu d'image
+      resetForm();
+
       // Réattacher les événements de suppression au NOUVEAU projet
       deleteWorks();
 
@@ -261,6 +272,9 @@ form.addEventListener('submit', async (event) => {
     console.error('Erreur:', error);
   }
 });
+
+
+
 
 
 //*************** Vérifie le contenu des champs du formulaire */
@@ -278,14 +292,16 @@ function colorValidateBtn() {
     validateBtn.classList.remove("active");  // Le bouton redevient gris
   }
 }
-
 // Ajouter des événements d'écoute pour chaque champ de formulaire
 inputPhoto.addEventListener('change', colorValidateBtn);
 title.addEventListener('input', colorValidateBtn);
 photoCategory.addEventListener('change', colorValidateBtn);
 
 
-//*************** Aperçu de l'image selectionnée ****/
+
+
+//*************** Aperçu de l'image selectionnée **********/
+
 
 const photoInput = document.getElementById('inputPhoto');
 const areaInputPhoto = document.querySelector('.areaInputPhoto');
@@ -325,6 +341,31 @@ photoInput.addEventListener('change', function (event) {
 
 
 
+//*************** Vide le formulaire une fois validé ***************/
+
+// Fonction pour réinitialiser le formulaire
+function resetForm() {
+  form.reset();
+ 
+  // Supprimer l'aperçu de l'image si elle existe
+  const existingPreview = areaInputPhoto.querySelector('img');
+  if (existingPreview) {
+    areaInputPhoto.removeChild(existingPreview);
+  }
+  // Restaurer les éléments cachés (icône, label, input, span)
+  const icon = areaInputPhoto.querySelector('i');
+  const label = areaInputPhoto.querySelector('label');
+  const input = areaInputPhoto.querySelector('input');
+  const span = areaInputPhoto.querySelector('span');
+
+  icon.style.display = 'inline-block';
+  label.style.display = 'inline-block';
+  input.style.display = 'inline-block';
+  span.style.display = 'inline-block';
+
+  const validateBtn = form.querySelector('.validate-btn');
+  validateBtn.classList.remove("active"); 
+}
 
 
 
