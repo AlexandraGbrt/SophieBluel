@@ -197,7 +197,6 @@ function deleteWorks() {
 
           if (response.ok) {
             alert("Le projet a été supprimé !");
-
             icon.closest('figure').remove(); // supprime le projet
             const projectInIndex = document.querySelector(`figure.work-item[data-id="${projetId}"]`);
             if (projectInIndex) {

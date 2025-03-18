@@ -137,12 +137,10 @@ table {
 	border-spacing: 0;
 }
 
-
-
 /** end reset css**/
 
 html,
-body{
+body {
 	overflow-x: hidden;
 }
 
@@ -199,7 +197,7 @@ main {
 
 
 
-/************** MODALE  *******************/
+/************** MODALE GALLERIE *******************/
 
 .modal-gallery,
 .modal-photo {
@@ -306,7 +304,7 @@ main {
 }
 
 
-/***** Modale 2 ******/
+/***** Modale PHOTOS ******/
 
 .modal-photo h2 {
 	margin: 60px auto 36px auto;
@@ -316,7 +314,8 @@ main {
 	display: flex;
 	flex-direction: column;
 	width: 420px;
-	padding-bottom: calc(47px - 20px);   /* -20px margin categories */
+	padding-bottom: calc(47px - 20px);
+	/* -20px margin categories */
 	background-color: #fefefe;
 	margin: auto;
 }
@@ -341,8 +340,8 @@ main {
 
 .border-separator {
 	border-bottom: 1px solid #888;
-    margin-top: 47px;
-    margin-bottom: 32px; 
+	margin-top: 47px;
+	margin-bottom: 32px;
 }
 
 .validate-btn {
@@ -352,7 +351,7 @@ main {
 }
 
 .validate-btn.active {
-	background-color: #1D6154; 
+	background-color: #1D6154;
 }
 
 
@@ -425,13 +424,12 @@ header {
 	/* margin: 50px 0; */
 	margin: 50px auto;
 	max-width: 1140px;
-	
+
 }
 
 
 .login-page .bold-login {
 	font-weight: 600;
-	/* color: red; */
 }
 
 nav ul {
@@ -486,8 +484,6 @@ h2 {
 	font-size: 30px;
 	color: #1D6154
 }
-
-
 
 #introduction {
 	display: flex;
@@ -666,8 +662,7 @@ footer {
 	display: flex;
 	justify-content: flex-end;
 	width: 100%;
-	/* max-width: 1440px; */
-	
+	max-width: 1440px;
 }
 
 .login-page footer {
@@ -675,14 +670,14 @@ footer {
 	bottom: 0;
 }
 
-footer nav{
+footer nav {
 	background-color: #FFFFFF;
 }
 
 footer ul {
 	display: flex;
 	justify-content: flex-end;
+	background-color: #FFFFFF;
 	margin: 28px;
-	padding-right: 107px;
 	font-size: 14px;
 }
