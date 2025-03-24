@@ -15,15 +15,15 @@ async function fetchData(url) {
   }
 }
 
-//******  Génère le HTML de chaque projet (réutiliser dans la fonction ajout de projet) ******/
-// function createWorkHTML(work) {
-//   return `
-//     <figure class="work-item" data-id="${work.id}" data-category="${work.category.id}">
-//       <img src="${work.imageUrl}" alt="${work.title}">
-//       <figcaption>${work.title}</figcaption>
-//     </figure>
-//   `;
-// }
+// Génère le HTML de chaque projet (aussi dans ajout de projets)/
+function createWorkHTML(work, category) {
+  return `
+    <figure class="work-item" data-id="${work.id}" data-category="${category}">
+      <img src="${work.imageUrl}" alt="${work.title}">
+      <figcaption>${work.title}</figcaption>
+    </figure>
+  `;
+}
 
 // Fonction pour afficher les projets
 async function showWorks() {
@@ -32,14 +32,7 @@ async function showWorks() {
 
   let galleryHTML = ''; // Sert de conteneur pour chaque projet
   data.forEach(function (work) {
-    // Construire le HTML pour chaque projet
-    // TODO function(work)
-    galleryHTML += `
-      <figure class="work-item" data-id="${work.id}" data-category="${work.category.id}">
-        <img src="${work.imageUrl}" alt="${work.title}">
-        <figcaption>${work.title}</figcaption>
-      </figure>
-    `;
+    galleryHTML += createWorkHTML(work, work.category.id);
   });
   gallery.innerHTML = galleryHTML; // Contenu de chaque projet dans le conteneur global
 }
@@ -248,14 +241,8 @@ form.addEventListener('submit', async (event) => {
       console.log('Projet ajouté :', newWork);
 
       const workList = document.querySelector('.gallery');
-      // TODO FONCTION (work)
       const newWorkItem = document.createElement('figure');
-      newWorkItem.innerHTML = `
-        <figure class="work-item" data-category="${newWork.categoryId}">
-          <img src="${newWork.imageUrl}" alt="${newWork.title}">
-          <figcaption>${newWork.title}</figcaption>
-        </figure>
-        `;
+      newWorkItem.innerHTML = createWorkHTML(newWork, newWork.categoryId);
       workList.appendChild(newWorkItem);
 
       // Réinitialiser le formulaire, y compris l'aperçu d'image
