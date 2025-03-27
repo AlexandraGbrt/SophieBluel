@@ -8,11 +8,6 @@ const createUser = async (event) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // const userData = {
-    //     email: "sophie.bluel@test.tld",
-    //     password: "S0phie",
-    // };
-
     // Les identifiants de Sophie
     const validEmail = "sophie.bluel@test.tld";
     const validPassword = "S0phie";
@@ -61,7 +56,7 @@ const createUser = async (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.form-login');  // Sélectionne le formulaire par sa classe
+    const form = document.querySelector('.form-login'); 
     if (form) {
         form.addEventListener("submit", createUser);  // Attacher l'événement si le formulaire existe
     } else {

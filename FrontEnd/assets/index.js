@@ -50,7 +50,6 @@ async function showCategories() {
   // Ajouter la catégorie "Tous"
   const categories = [{ id: "Tous", name: "Tous" }, ...data];
 
-
   const menu = document.createElement('ul');
   menu.id = 'menu_categories';
 
@@ -163,21 +162,17 @@ async function showWorksInModal() {
 //**************** SUPPRESSION DES PROJETS *******************/
 
 function deleteWorks() {
-  const deleteIcons = document.querySelectorAll('.delete-icone'); // récupérer les 'delete-icone'
+  const deleteIcons = document.querySelectorAll('.delete-icone');
 
   deleteIcons.forEach(icon => {
     icon.addEventListener('click', async function () {
-      // const projetId = icon.getAttribute('data-id'); // Récupérer l'ID du projet 
-
       const projetId = icon.closest('.work-item').getAttribute('data-id');
       const token = localStorage.getItem('token');
 
       // Vérifier si le token est présent
       if (!token) {
-        return; // On arrête la fonction si token absent
+        return;
       }
-
-      // Confirmer la suppression
       if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
 
         try {
@@ -245,7 +240,7 @@ form.addEventListener('submit', async (event) => {
       newWorkItem.innerHTML = createWorkHTML(newWork, newWork.categoryId);
       workList.appendChild(newWorkItem);
 
-      // Réinitialiser le formulaire, y compris l'aperçu d'image
+      // Réinitialiser le formulaire et l'aperçu d'image
       resetForm();
 
       // Réattacher les événements de suppression au NOUVEAU projet
@@ -278,7 +273,6 @@ function colorValidateBtn() {
     validateBtn.classList.remove("active");  // Le bouton redevient gris
   }
 }
-// Ajouter des événements d'écoute pour chaque champ de formulaire
 inputPhoto.addEventListener('change', colorValidateBtn);
 title.addEventListener('input', colorValidateBtn);
 photoCategory.addEventListener('change', colorValidateBtn);
@@ -338,7 +332,7 @@ function resetForm() {
   if (existingPreview) {
     areaInputPhoto.removeChild(existingPreview);
   }
-  // Restaurer les éléments cachés (icône, label, input, span)
+  // Restaurer les éléments cachés
   const icon = areaInputPhoto.querySelector('i');
   const label = areaInputPhoto.querySelector('label');
   const input = areaInputPhoto.querySelector('input');
@@ -364,32 +358,32 @@ function resetForm() {
 const editWorksModal = document.getElementById('editProjectModal');
 const addPhotoModal = document.getElementById('addPhotoModal');
 
-// Ouvrir la modale 1 et afficher les projets
+// Ouvrir la modale Gallerie et afficher les projets
 async function openEditWorksModal() {
   editWorksModal.style.display = 'block';
   await showWorksInModal();
 }
 
-// Fermer la modale 1
+// Fermer la modale Gallerie
 function closeEditWorksModal() {
   editWorksModal.style.display = 'none';
 }
 
-// Ouvrir la modale 2 (Ajouter une photo)
+// Ouvrir la modale Ajouter une photo
 function openAddPhotoModal() {
   addPhotoModal.style.display = 'block';
 }
 
-// Fermer la modale 2
+// Fermer la modale Ajouter une photo
 function closeAddPhotoModal() {
   addPhotoModal.style.display = 'none';
 }
 
-// Ouvrir et fermer la modale 1
+// Ouvrir et fermer la modale Gallerie
 document.getElementById('openModalButton').addEventListener('click', openEditWorksModal);
 document.querySelector('.close-button').addEventListener('click', closeEditWorksModal);
 
-// Ouvrir  la modale 2 (Ajouter une photo)
+// Ouvrir  la modale Ajouter une photo
 document.querySelector('.add-photo').addEventListener('click', openAddPhotoModal);
 
 // fermeture des deux modales quand on clique sur le bouton de fermeture de la modale 2
@@ -413,12 +407,12 @@ window.addEventListener('click', (event) => {
 });
 
 
-/**************** AFFICHER LES CATEGORIES DANS LA MODALE 2 ************/
+/**************** AFFICHER LES CATEGORIES DANS LA MODALE 2 "Ajouter une photo" ************/
 
 async function showCategoriesInModal() {
   const data = await fetchData(`${baseUrl}/categories`);
 
-  const selectElement = document.getElementById('photo-category'); // Cible l'élément select de la modale
+  const selectElement = document.getElementById('photo-category');
 
   // Vider le select avant d'ajouter les nouvelles options
   selectElement.innerHTML = '';
