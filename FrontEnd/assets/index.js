@@ -34,7 +34,7 @@ async function showWorks() {
   data.forEach(function (work) {
     galleryHTML += createWorkHTML(work, work.category.id);
   });
-  gallery.innerHTML = galleryHTML; // Contenu de chaque projet dans le conteneur global
+  gallery.innerHTML = galleryHTML; // Contenu de chaque projet 
 }
 
 showWorks();
@@ -60,11 +60,15 @@ async function showCategories() {
     <li><button class="category-btn" data-category="${category.id}">${category.name}</button></li>
     `;
   });
-
   menu.innerHTML = menuHTML;  // Ajouter le HTML généré dans le menu
 
   // Insérer le menu avant la galerie
   document.querySelector('#portfolio .gallery')?.insertAdjacentElement('beforebegin', menu);
+
+  // Masquer les filtres en "mode édition"
+  const menuCat = document.querySelector('#menu_categories');
+  menuCat.style.display = (isUserLoggedIn) ? 'none' : 'flex';
+  
 
   // Ajouter des gestionnaires d'événements aux boutons de catégorie
   const categoryButtons = document.querySelectorAll('.category-btn');
@@ -77,9 +81,6 @@ async function showCategories() {
 }
 
 showCategories();
-
-
-
 
 
 //***************  FILTRER LES PROJETS  ************//
@@ -106,9 +107,11 @@ let isUserLoggedIn = (token != null);
 const editLink = document.querySelector('.edition-link');
 const editTopBar = document.querySelector('.edition-top-bar');
 
+
 // Si token different de "null" alors valeur 1 sinon valeur 2
 editLink.style.display = (isUserLoggedIn) ? 'block' : 'none';
 editTopBar.style.display = (isUserLoggedIn) ? 'block' : 'none';
+
 
 const login = document.querySelector('.login');
 // Si token different de null alors valeur 1 sinon valeur 2
